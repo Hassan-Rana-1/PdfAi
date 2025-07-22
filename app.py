@@ -7,8 +7,7 @@ from langchain.vectorstores import FAISS
 from langchain.memory import ConversationBufferMemory
 from langchain.chains.conversational_retrieval.base import ConversationalRetrievalChain
 import InstructorEmbedding 
-from langchain.llms import HuggingFaceHub
-
+from langchain_community.llms import HuggingFaceHub
 
 def get_pdf_text(pdf_docs):
     text =""
