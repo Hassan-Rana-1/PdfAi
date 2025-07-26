@@ -1,3 +1,4 @@
+# import required libraries
 import streamlit as st
 from dotenv import load_dotenv
 from PyPDF2 import PdfReader
@@ -9,6 +10,7 @@ from langchain.chains.conversational_retrieval.base import ConversationalRetriev
 import InstructorEmbedding 
 from langchain_community.llms import HuggingFaceHub
 
+# Extract text from uploaded PDFs
 def get_pdf_text(pdf_docs):
     text =""
     for pdf in pdf_docs:
@@ -17,7 +19,7 @@ def get_pdf_text(pdf_docs):
             text += page.extract_text()
     return text
 
-
+# Split the text from PDfs into smaller chunkz
 def get_text_chunks(text):
     text_splitter = CharacterTextSplitter(
         separator = "\n\n",
@@ -29,6 +31,7 @@ def get_text_chunks(text):
     chunks = text_splitter.split_text(text)
     return chunks
 
+# vector embedding and storing using FAISS
 def get_vectorstore(text_chunks):
     embeddings = HuggingFaceInstructEmbeddings(model_name="hkunlp/instructor-xl")
     vectorstore = FAISS.from_texts(texts=text_chunks, embedding=embeddings)
@@ -43,7 +46,7 @@ def get_conversation_chain(vectorstore):
 
 
 def main():
-    load_dotenv()
+    load_dotenv() 
     st.set_page_config(page_title="chat with multiple PDFs", page_icon=":books:")
 
     if "conversation" not in st.session_state:
